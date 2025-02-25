@@ -1,6 +1,7 @@
 import {
   Args,
   Int,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -9,7 +10,8 @@ import {
 import { User } from 'src/entities/user.entity';
 import { UserService } from './user.service';
 import { Logger } from '@nestjs/common';
-
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -34,5 +36,23 @@ export class UserResolver {
   async profile(@Parent() user: User) {
     this.logger.log(`Fetching profile for user ${user.id}`);
     return await user.profile;
+  }
+
+  @Mutation(() => User)
+  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.userService.create(createUserInput);
+  }
+
+  @Mutation(() => User)
+  updateUser(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+  ) {
+    return this.userService.update(id, updateUserInput);
+  }
+
+  @Mutation(() => Boolean)
+  removeUser(@Args('id', { type: () => Int }) id: number) {
+    return this.userService.remove(id);
   }
 }

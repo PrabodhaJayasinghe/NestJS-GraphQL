@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Post } from './post.entity';
 import { Profile } from './profile.entity';
-// import { Role } from 'src/enums/role.enum';
+import { Role } from 'src/enums/role.enum';
 // import { Exclude } from 'class-transformer';
 
 @ObjectType()
@@ -31,13 +31,13 @@ export class User {
   @Column()
   email: string;
 
-  // @Field(() => Role)
-  // @Column({
-  //   type: 'enum',
-  //   enum: Role,
-  //   default: Role.USER,
-  // })
-  // role: Role;
+  @Field(() => Role)
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.USER,
+  })
+  role: Role;
 
   // @Column({ nullable: true })
   // password: string;
