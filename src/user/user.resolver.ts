@@ -1,11 +1,4 @@
-import {
-  Args,
-  Int,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { User } from 'src/entities/user.entity';
 import { UserService } from './user.service';
 import { Logger } from '@nestjs/common';
@@ -17,11 +10,6 @@ export class UserResolver {
   @Query(() => [User], { name: 'user' })
   async findAll() {
     return await this.userService.findAll();
-  }
-
-  @Query(() => User)
-  getUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
   }
 
   //To resolve nested object relationships in GraphQL, we need to define a field resolver for the nested object.
