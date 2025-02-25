@@ -21,11 +21,6 @@ export class UserResolver {
     return await this.userService.findAll();
   }
 
-  @Query(() => User)
-  getUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
-  }
-
   //To resolve nested object relationships in GraphQL, we need to define a field resolver for the nested object.
   //In this case, we need to define a field resolver for the profile field in the User entity.
   //The field resolver is a function that resolves the value of a field in a GraphQL object.
