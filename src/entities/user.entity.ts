@@ -45,7 +45,7 @@ export class User {
   @Field(() => Profile)
   @OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
   @JoinColumn()
-  profile: Promise<Profile>;
+  profile: Promise<Profile>; // lazy loading profile data when user is queried. It means that profile data is not loaded until it is explicitly requested
 
   @Field(() => [Post])
   @OneToMany(() => Post, (post) => post.user)
