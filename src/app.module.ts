@@ -9,6 +9,7 @@ import dbConfig from './config/db.config';
 // import { UserModule } from './user/user.module';
 // import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -29,6 +30,8 @@ import { UserModule } from './user/user.module';
     }),
 
     UserModule,
+
+    AuthModule,
 
     // UserModule,
 
