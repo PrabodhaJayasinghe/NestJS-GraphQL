@@ -12,9 +12,13 @@ import { UserService } from './user.service';
 import { Logger, UseGuards } from '@nestjs/common';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { GqlJwtGuard } from 'src/auth/guards/gql-jwt-guard/gql-jwt.guard';
+
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { JwtUser } from 'src/auth/types/jwt-user';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/enums/role.enum';
+import { GqlJwtGuard } from 'src/auth/guards/gql-jwt-guard/gql-jwt.guard';
+import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
@@ -24,6 +28,8 @@ export class UserResolver {
     return await this.userService.findAll();
   }
 
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @UseGuards(GqlJwtGuard)
   @Query(() => User)
   getUser(@Args('id', { type: () => Int }) id: number) {
@@ -47,6 +53,8 @@ export class UserResolver {
   //   return this.userService.create(createUserInput);
   // }
 
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @UseGuards(GqlJwtGuard)
   @Mutation(() => User)
   updateUser(
